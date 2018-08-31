@@ -12,7 +12,7 @@ const router = express.Router();
 app.use(cors());
 app.use(bodyParser.json());
 
-mongoose.connect('');
+mongoose.connect('mogodb://localhost:27017/issues');
 
 const connection = mongoose.connection;
 
@@ -69,9 +69,14 @@ router.route('/issues/update/:id').post((req, res)=>{
 	});
 });
 
-
-
-
+router.route('/issues/delete/:id').get((req, res) => {
+	Issue.findByIdAndRemove({_id: req.params.id}, (err, issue) => {
+		if (err)
+			res.json(err);
+		else
+			res.json('Removed successfully';)
+	})
+})
 
 app.use('/', router);
 
